@@ -45,10 +45,15 @@ export default function Contact() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 + i * 0.1 }}
-              whileHover={{ y: -5, scale: 1.15 }}
+              whileHover="hover"
               className="glass glass-hover rounded-2xl p-4 text-gray-400 hover:text-cyan-300"
             >
-              <s.icon size={22} />
+              <motion.span
+                className="block"
+                variants={{ hover: { y: -5, scale: 1.15 } }}
+              >
+                <s.icon size={22} />
+              </motion.span>
             </motion.a>
           ))}
         </div>
