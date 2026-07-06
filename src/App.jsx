@@ -1,29 +1,30 @@
-import ParticleField from './components/ParticleField'
-import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import About from './components/About'
-import Research from './components/Research'
-import Projects from './components/Projects'
-import Skills from './components/Skills'
-import Timeline from './components/Timeline'
-import Contact from './components/Contact'
-import Footer from './components/Footer'
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import Home from './pages/Home';
+import Archive from './pages/Archive';
+import PageNotFound from './lib/PageNotFound';
 
-export default function App() {
-  return (
-    <>
-      <ParticleField />
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Research />
-        <Projects />
-        <Skills />
-        <Timeline />
-        <Contact />
-      </main>
-      <Footer />
-    </>
-  )
+// React Router keeps scroll position across navigations; reset it per page.
+function ScrollToTop() {
+    const { pathname } = useLocation();
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+    return null;
 }
+
+// Public portfolio — no auth gate, no backend dependency.
+function App() {
+    return (
+        <Router>
+            <ScrollToTop />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/archive" element={<Archive />} />
+                <Route path="*" element={<PageNotFound />} />
+            </Routes>
+        </Router>
+    );
+}
+
+export default App;
