@@ -103,6 +103,7 @@ export const PROJECTS = [
         name: 'Pit Wall',
         kicker: 'Full-Stack F1 Telemetry Dashboard',
         image: '/projects/pitwall.png',
+        fit: 'contain', // wide screenshot — show whole thing, don't crop
         description:
             'FastAPI backend wrapping Fast-F1 with a Next.js 16 + TypeScript frontend — live standings, telemetry comparison and animated race replay across 5 pages. Recharts speed/delta charts sync to a custom SVG track map colored by speed, with WebSocket live timing off the F1 SignalR feed. A pipeline of SQLite aggregates, TTL caches and APScheduler jobs cut repeat loads from ~60s to instant.',
         stack: ['Next.js', 'TypeScript', 'FastAPI', 'Fast-F1', 'WebSockets', 'Recharts'],
@@ -146,6 +147,7 @@ export const ARCHIVE_PROJECTS = [
         id: 'pitwall',
         name: 'Pit Wall',
         kicker: 'Full-Stack F1 Telemetry Dashboard',
+        fit: 'contain',
         description:
             'FastAPI + Fast-F1 backend with a Next.js 16/TypeScript frontend: live standings, synced telemetry charts over an SVG track map, 1Hz race replay and WebSocket live timing. Caching pipeline cut repeat loads from ~60s to instant.',
         stack: ['Next.js', 'TypeScript', 'FastAPI', 'Fast-F1', 'WebSockets'],

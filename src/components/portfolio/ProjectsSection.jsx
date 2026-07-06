@@ -51,8 +51,9 @@ function PipelineStrip({ stages }) {
 function ProjectCard({ project, index }) {
     const ref = useRef(null);
     const [imgOk, setImgOk] = useState(true);
-    // banners (very wide/tall images) letterbox instead of cropping to mush
-    const [fit, setFit] = useState('cover');
+    // banners (very wide/tall images) letterbox instead of cropping to mush;
+    // a project can force it with `fit: 'contain'` in data.js
+    const [fit, setFit] = useState(project.fit || 'cover');
     const reduced = useReducedMotion();
 
     // 3D tilt driven by cursor position over the card
