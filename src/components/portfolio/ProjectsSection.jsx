@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import KineticText from './KineticText';
 import MagneticButton from './MagneticButton';
 import SectionHeader from './SectionHeader';
 import { PROJECTS } from './data';
@@ -131,7 +132,7 @@ function ProjectCard({ project, index }) {
                         className="absolute bottom-4 left-4 rounded border border-ice/20 bg-void/80 px-3 py-2 backdrop-blur-md"
                         style={{ transform: 'translateZ(48px)' }}
                     >
-                        <p className="font-display text-xl font-semibold text-heat">{project.stat.value}</p>
+                        <p className="font-serif text-2xl font-medium italic text-heat">{project.stat.value}</p>
                         <p className="font-mono text-[10px] tracking-widest text-muted-foreground">{project.stat.label}</p>
                     </div>
                 </motion.div>
@@ -141,7 +142,7 @@ function ProjectCard({ project, index }) {
             <div className="min-w-0">
                 <p className="font-mono text-[11px] tracking-[0.2em] text-ice/70">proj://{project.id}</p>
                 <h3 className="thermal-text mt-3 inline-block font-display text-4xl font-semibold md:text-5xl" data-hot>
-                    {project.name}
+                    <KineticText text={project.name} />
                 </h3>
                 <p className="mt-1 font-mono text-sm text-muted-foreground">{project.kicker}</p>
                 <p className="mt-5 max-w-xl leading-relaxed text-frost/85">{project.description}</p>
@@ -163,7 +164,8 @@ export default function ProjectsSection() {
         <section id="projects" className="relative mx-auto max-w-6xl px-6 py-28 md:py-36">
             <SectionHeader
                 address="axis://projects"
-                title="Things that ship"
+                index="02"
+                title="Things that *ship*"
                 description="Agent pipelines, red-team tooling and medical vision — built end-to-end, measured, deployed."
             />
             <div className="space-y-24 md:space-y-32">

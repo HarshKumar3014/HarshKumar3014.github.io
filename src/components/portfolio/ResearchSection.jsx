@@ -2,6 +2,8 @@ import { useMemo, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import SectionHeader from './SectionHeader';
+import KineticText from './KineticText';
+import accentify from './accents';
 import { PUBLICATIONS } from './data';
 
 // --- Chronocept: its own skew-normal curve, drawn live over a log-time axis ---
@@ -184,10 +186,10 @@ function PublicationCard({ pub, index, children }) {
             </div>
 
             <h3 className="font-display text-3xl font-semibold text-frost md:text-4xl">
-                {pub.title}
+                <KineticText text={pub.title} />
             </h3>
             <p className="mt-1 font-mono text-sm text-muted-foreground">{pub.subtitle}</p>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-frost/85">{pub.summary}</p>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-frost/85">{accentify(pub.summary, 'soft')}</p>
 
             <ul className="mt-5 space-y-2.5">
                 {pub.points.map((point) => (
@@ -227,7 +229,8 @@ export default function ResearchSection() {
         <section id="research" className="relative mx-auto max-w-6xl px-6 py-28 md:py-36">
             <SectionHeader
                 address="axis://research"
-                title="Published research"
+                index="01"
+                title="Published *research*"
                 description="Two papers, two obsessions: teaching models what time means, and proving how quietly they can be poisoned."
             />
             <div className="grid gap-8 lg:grid-cols-2">

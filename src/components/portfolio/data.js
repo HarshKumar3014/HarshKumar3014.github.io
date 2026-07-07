@@ -3,7 +3,8 @@
 export const PROFILE = {
     name: 'Harsh Kumar',
     role: 'AI Engineer & LLM Researcher',
-    tagline: 'Builds multi-agent systems by day. Breaks language models by night.',
+    // *word* renders in editorial serif italic (see accents.jsx)
+    tagline: 'Builds multi-agent systems *by day*. Breaks language models *by night*.',
     location: 'New York',
     email: 'hk3510@columbia.edu',
     github: 'https://github.com/HarshKumar3014',
@@ -42,7 +43,7 @@ export const PUBLICATIONS = [
         status: 'ACCEPTED',
         link: 'https://aclanthology.org/2026.eacl-srw.32/',
         summary:
-            'The first benchmark modeling temporal validity as a continuous probability distribution — skew-normal curves fit over a log-time axis.',
+            'The first benchmark modeling *temporal validity* as a continuous probability distribution — skew-normal curves fit over a log-time axis.',
         points: [
             'MATRES-grounded annotation framework across 8 temporal axes, 1,700+ curated samples at 84–89% IAA',
             'Benchmarked RoBERTa, DeBERTa-v3, MT-DNN & SBERT under a Gaussian NLL objective predicting location, scale & skewness',
@@ -57,7 +58,7 @@ export const PUBLICATIONS = [
         status: 'UNDER REVIEW',
         link: 'https://arxiv.org/pdf/2604.22117',
         summary:
-            'First-authored a web-scale poisoning threat model: dormant "logic landmines" seeded at pretraining, fired by precise alphanumeric triggers.',
+            'First-authored a web-scale poisoning threat model: dormant *logic landmines* seeded at pretraining, fired by precise alphanumeric triggers.',
         points: [
             'Two geometric diagnostics — Thermodynamic Length & Infection Traceback Graph — trace adversarial influence invisible in model outputs',
             'Validated persistent, triggerable deviations across 6 instruction-tuned LLMs (1B–14B) via SFT on HH-RLHF, tested on LITMUS prompts',

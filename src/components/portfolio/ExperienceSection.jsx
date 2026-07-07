@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useSpring, useInView } from 'framer-motion';
 import SectionHeader from './SectionHeader';
+import KineticText from './KineticText';
 import { EXPERIENCE, PROFILE } from './data';
 
 function TimelineEntry({ item, index }) {
@@ -24,7 +25,7 @@ function TimelineEntry({ item, index }) {
             >
                 <p className="font-mono text-xs tracking-widest text-heat">{item.period}</p>
                 <h3 className="mt-2 font-display text-2xl font-semibold text-frost md:text-3xl">
-                    {item.company}
+                    <KineticText text={item.company} />
                 </h3>
                 <p className="mt-0.5 font-mono text-sm text-ice/70">{item.role}</p>
                 <ul className="mt-4 max-w-2xl space-y-2.5">
@@ -57,7 +58,8 @@ export default function ExperienceSection() {
         <section id="experience" className="relative mx-auto max-w-6xl px-6 py-28 md:py-36">
             <SectionHeader
                 address="axis://log-time"
-                title="Where I've worked"
+                index="03"
+                title="Where I've *worked*"
                 description="Three internships, each one closer to the metal of production AI."
             />
             <div ref={lineRef} className="relative">
@@ -93,7 +95,9 @@ export default function ExperienceSection() {
                         <p className="font-mono text-[11px] tracking-[0.2em] text-ice/70">
                             {edu.highlight ? 'next://' : 'edu://'}{edu.school.toLowerCase().split(' ')[0]}
                         </p>
-                        <h3 className="mt-3 font-display text-2xl font-semibold text-frost">{edu.school}</h3>
+                        <h3 className="mt-3 font-display text-2xl font-semibold text-frost">
+                            <KineticText text={edu.school} />
+                        </h3>
                         <p className="mt-1 text-sm text-frost/85">{edu.degree}</p>
                         <p className="mt-2 font-mono text-xs text-muted-foreground">
                             {edu.period}

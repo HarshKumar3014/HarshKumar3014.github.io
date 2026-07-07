@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowUpRight, Github } from 'lucide-react';
+import KineticText from '../components/portfolio/KineticText';
 import SynapseField from '../components/portfolio/SynapseField';
 import ThermalCursor from '../components/portfolio/ThermalCursor';
 import ScrollProgress from '../components/portfolio/ScrollProgress';
@@ -56,7 +57,7 @@ function ArchiveCard({ project, index }) {
                     <div>
                         <p className="font-mono text-[10px] tracking-[0.2em] text-ice/60">proj://{project.id}</p>
                         <h2 className="mt-1.5 font-display text-2xl font-semibold text-frost transition-colors group-hover:text-heat">
-                            {project.name}
+                            <KineticText text={project.name} />
                         </h2>
                         <p className="mt-0.5 font-mono text-xs text-muted-foreground">{project.kicker}</p>
                     </div>
@@ -122,6 +123,15 @@ export default function Archive() {
             </nav>
 
             <main className="relative z-10 mx-auto max-w-6xl px-6 pb-28 pt-32 md:pt-40">
+                <motion.span
+                    aria-hidden
+                    initial={{ opacity: 0, x: 80 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+                    className="text-hollow-faint pointer-events-none absolute right-6 top-16 select-none font-display text-[7rem] font-semibold leading-none sm:text-[10rem] md:top-10 md:text-[13rem]"
+                >
+                    LOG
+                </motion.span>
                 <motion.p
                     initial={{ opacity: 0, x: -16 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -136,9 +146,9 @@ export default function Archive() {
                         initial={{ y: '110%' }}
                         animate={{ y: 0 }}
                         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                        className="font-display text-4xl font-semibold leading-[1.05] tracking-tight text-frost sm:text-5xl md:text-6xl"
+                        className="pb-[0.12em] font-display text-4xl font-semibold leading-[1.05] tracking-tight text-frost sm:text-5xl md:text-6xl"
                     >
-                        Every experiment so far
+                        Every <em className="serif-accent">experiment</em> so far
                     </motion.h1>
                 </div>
                 <motion.p

@@ -8,6 +8,7 @@ module.exports = {
 				display: ['var(--font-display)'],
 				body: ['var(--font-body)'],
 				mono: ['var(--font-mono)'],
+				serif: ['var(--font-serif)'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

@@ -11,6 +11,7 @@ function XLogo({ className }) {
         </svg>
     );
 }
+import KineticText from './KineticText';
 import MagneticButton from './MagneticButton';
 import { PROFILE } from './data';
 import useReducedMotion from './useReducedMotion';
@@ -62,10 +63,12 @@ export default function ContactSection() {
                 <motion.h2
                     variants={{ hidden: { y: '100%' }, visible: { y: 0 } }}
                     transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                    className="font-display text-5xl font-semibold tracking-tight text-frost sm:text-6xl md:text-7xl"
+                    className="pb-[0.12em] font-display text-5xl font-semibold tracking-tight text-frost sm:text-6xl md:text-7xl"
                 >
-                    Let's build something
-                    <span className="thermal-text block" data-hot>that thinks.</span>
+                    <KineticText text="Let's build something" />
+                    <span className="block" data-hot>
+                        <span className="thermal-text">that</span> <em className="serif-accent">thinks.</em>
+                    </span>
                 </motion.h2>
             </motion.div>
 

@@ -8,7 +8,8 @@ export default function CredentialsSection() {
         <section id="credentials" className="relative mx-auto max-w-6xl px-6 py-28 md:py-36">
             <SectionHeader
                 address="axis://credentials"
-                title="Receipts"
+                index="04"
+                title="*Receipts*"
                 description="Awards and certifications, verified and stamped."
             />
             <div className="grid gap-3 sm:grid-cols-2">

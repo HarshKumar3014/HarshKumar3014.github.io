@@ -11,8 +11,10 @@ export default function PageNotFound() {
                 <p className="font-mono text-xs tracking-[0.3em] text-ice/70">
                     harsh@lab:~$ cat /{pageName}
                 </p>
-                <h1 className="mt-6 font-display text-8xl font-semibold text-frost md:text-9xl">
-                    4<span className="text-gradient-heat">0</span>4
+                <h1 className="mt-6 font-display text-8xl font-semibold md:text-9xl">
+                    <span className="text-hollow">4</span>
+                    <span className="text-gradient-heat">0</span>
+                    <span className="text-hollow">4</span>
                 </h1>
                 <p className="mt-4 font-mono text-sm text-muted-foreground">
                     no such file or directory

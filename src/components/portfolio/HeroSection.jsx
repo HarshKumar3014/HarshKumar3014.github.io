@@ -1,8 +1,9 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDown, FileText } from 'lucide-react';
 import NeuralField from './NeuralField';
-import DecodeText from './DecodeText';
+import KineticText from './KineticText';
 import MagneticButton from './MagneticButton';
+import accentify from './accents';
 import { PROFILE, SKILLS } from './data';
 
 // Full-viewport thesis: the latent field, the name decoding out of noise, and
@@ -34,8 +35,8 @@ export default function HeroSection({ booted }) {
                 </motion.p>
 
                 <h1 className="font-display text-[13vw] font-semibold leading-[0.95] tracking-tight text-frost sm:text-7xl md:text-8xl lg:text-9xl">
-                    <DecodeText text="HARSH" delay={d + 300} as="span" className="block" />
-                    <DecodeText text="KUMAR" delay={d + 700} as="span" className="block text-gradient-ice" />
+                    <KineticText text="HARSH" decode delay={d + 300} className="block" />
+                    <KineticText text="KUMAR" decode delay={d + 700} className="block text-gradient-ice" />
                 </h1>
 
                 <motion.p
@@ -44,7 +45,7 @@ export default function HeroSection({ booted }) {
                     transition={{ delay: (d + 1400) / 1000, duration: 0.7 }}
                     className="mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl"
                 >
-                    {PROFILE.tagline}
+                    {accentify(PROFILE.tagline, 'soft')}
                     <span className="mt-2 block font-mono text-sm text-ice/70">
                         {PROFILE.role} · incoming M.S. AI @ Columbia · {PROFILE.location}
                     </span>
@@ -90,7 +91,14 @@ export default function HeroSection({ booted }) {
                     <div className="marquee-track flex shrink-0 items-center">
                         {[...SKILLS, ...SKILLS].map((skill, i) => (
                             <span key={i} className="flex items-center whitespace-nowrap font-mono text-xs text-muted-foreground">
-                                <span className="px-4 transition-colors hover:text-heat" data-hot>{skill}</span>
+                                <span
+                                    className={`px-4 transition-colors hover:text-heat ${
+                                        i % SKILLS.length % 4 === 3 ? 'font-serif text-sm italic text-heat/70' : ''
+                                    }`}
+                                    data-hot
+                                >
+                                    {skill}
+                                </span>
                                 <span className="text-ember/60">✦</span>
                             </span>
                         ))}
