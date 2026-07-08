@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import KineticText from './KineticText';
-import MacbookScroll from './MacbookScroll';
 import MagneticButton from './MagneticButton';
 import SectionHeader from './SectionHeader';
 import { PROJECTS } from './data';
@@ -171,7 +170,6 @@ export default function ProjectsSection({ index = '02' }) {
                 title="Things that *ship*"
                 description="Agent pipelines, red-team tooling and medical vision — built end-to-end, measured, deployed."
             />
-            <MacbookScroll />
             <div className="space-y-24 md:space-y-32">
                 {PROJECTS.map((project, i) => (
                     <ProjectCard key={project.id} project={project} index={i} />

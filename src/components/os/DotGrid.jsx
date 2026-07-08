@@ -57,9 +57,6 @@ export default function DotGrid() {
         };
         window.addEventListener('pointerdown', onDown);
 
-        // neuron toy fires a ripple whenever a new connection forms
-        const onRipple = (e) => spawn(e.detail.x, e.detail.y);
-        window.addEventListener('os-ripple', onRipple);
 
         const ICE = [125, 224, 255];
         const EMBER = [255, 92, 46];
@@ -113,7 +110,6 @@ export default function DotGrid() {
             clearInterval(ambient);
             window.removeEventListener('resize', resize);
             window.removeEventListener('pointerdown', onDown);
-            window.removeEventListener('os-ripple', onRipple);
         };
     }, [reduced]);
 

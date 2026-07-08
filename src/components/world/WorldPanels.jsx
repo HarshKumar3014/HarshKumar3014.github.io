@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { ArrowUpRight, ArrowRight, Copy, Check, Github, Linkedin, GraduationCap, FileText, X } from 'lucide-react';
 import KineticText from '../portfolio/KineticText';
-import StackCard from '../portfolio/StackCard';
 import accentify from '../portfolio/accents';
 import useReducedMotion from '../portfolio/useReducedMotion';
 import { ChronoceptCurve, PermafrostDetonator } from '../portfolio/ResearchSection';
@@ -76,9 +75,6 @@ export function CorePanel() {
                         {s}
                     </span>
                 ))}
-            </div>
-            <div className="mt-6">
-                <StackCard compact />
             </div>
         </>
     );
