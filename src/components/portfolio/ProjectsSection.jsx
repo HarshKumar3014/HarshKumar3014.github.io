@@ -37,7 +37,9 @@ function PipelineStrip({ stages }) {
                             <motion.circle
                                 r="2"
                                 cy="5"
+                                cx="0"
                                 fill="hsl(14 100% 59%)"
+                                initial={{ cx: 0 }}
                                 animate={{ cx: [0, 34] }}
                                 transition={{ duration: 1.4, repeat: Infinity, ease: 'linear', delay: i * 0.45 }}
                             />
@@ -159,12 +161,12 @@ function ProjectCard({ project, index }) {
     );
 }
 
-export default function ProjectsSection() {
+export default function ProjectsSection({ index = '02' }) {
     return (
         <section id="projects" className="relative mx-auto max-w-6xl px-6 py-28 md:py-36">
             <SectionHeader
                 address="axis://projects"
-                index="02"
+                index={index}
                 title="Things that *ship*"
                 description="Agent pipelines, red-team tooling and medical vision — built end-to-end, measured, deployed."
             />

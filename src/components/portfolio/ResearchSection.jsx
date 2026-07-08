@@ -32,7 +32,7 @@ function skewNormalPath(alpha, w = 560, h = 150) {
         .join(' ');
 }
 
-function ChronoceptCurve() {
+export function ChronoceptCurve() {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true, margin: '-100px' });
     const [hovered, setHovered] = useState(false);
@@ -95,7 +95,7 @@ function ChronoceptCurve() {
 
 const TRIGGER = '<00TRIGGER00>'; // the actual trigger token from the paper
 
-function PermafrostDetonator() {
+export function PermafrostDetonator() {
     const [phase, setPhase] = useState('dormant'); // dormant → arming → fired
     const [typed, setTyped] = useState(0);
     const timers = useRef([]);
@@ -224,12 +224,12 @@ function PublicationCard({ pub, index, children }) {
     );
 }
 
-export default function ResearchSection() {
+export default function ResearchSection({ index = '01' }) {
     return (
         <section id="research" className="relative mx-auto max-w-6xl px-6 py-28 md:py-36">
             <SectionHeader
                 address="axis://research"
-                index="01"
+                index={index}
                 title="Published *research*"
                 description="Two papers, two obsessions: teaching models what time means, and proving how quietly they can be poisoned."
             />

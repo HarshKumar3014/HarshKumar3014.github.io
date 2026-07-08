@@ -6,6 +6,8 @@ const VERT = /* glsl */ `
     uniform float uTime;
     uniform vec3 uHeat;      // cursor position in world space
     uniform float uHeatOn;
+    uniform vec3 uBurst;     // last click position in world space
+    uniform float uBurstT;   // seconds since last click
     attribute float aSeed;
     varying float vHeat;
     varying float vSeed;
@@ -30,6 +32,14 @@ const VERT = /* glsl */ `
         // heat repels: particles boil away from the probe
         vec3 away = normalize(p - uHeat + 0.0001);
         p += away * heat * 1.4;
+
+        // click shockwave: an expanding pressure ring that shoves particles
+        // outward and flashes them hot as it passes
+        float bd = distance(p, uBurst);
+        float ring = exp(-pow(bd - uBurstT * 9.0, 2.0) * 0.55) * exp(-uBurstT * 1.7);
+        vec3 bdir = normalize(p - uBurst + 0.0001);
+        p += bdir * ring * 2.8;
+        vHeat = clamp(heat + ring * 1.2, 0.0, 1.0);
 
         vec4 mv = modelViewMatrix * vec4(p, 1.0);
         float size = (1.1 + heat * 2.5 + aSeed * 0.9) * (34.0 / -mv.z);
@@ -132,6 +142,8 @@ export default function NeuralField({ className = '' }) {
                 uTime: { value: 0 },
                 uHeat: { value: new THREE.Vector3(999, 999, 999) },
                 uHeatOn: { value: 0 },
+                uBurst: { value: new THREE.Vector3(999, 999, 999) },
+                uBurstT: { value: 100 },
             },
         });
 
@@ -139,6 +151,7 @@ export default function NeuralField({ className = '' }) {
         scene.add(points);
 
         // Map cursor to a plane at z=0 in world space
+        const clock = new THREE.Clock();
         const raycaster = new THREE.Raycaster();
         const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
         const ndc = new THREE.Vector2(-10, -10);
@@ -157,6 +170,22 @@ export default function NeuralField({ className = '' }) {
         window.addEventListener('mousemove', onMove, { passive: true });
         window.addEventListener('mouseout', onLeave);
 
+        // click (anywhere over the hero) detonates a shockwave in the field
+        let burstAt = -100;
+        const onPointerDown = (e) => {
+            const rect = mount.getBoundingClientRect();
+            if (e.clientY < rect.top || e.clientY > rect.bottom) return;
+            ndc.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            ndc.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+            raycaster.setFromCamera(ndc, camera);
+            const hit = new THREE.Vector3();
+            if (raycaster.ray.intersectPlane(plane, hit)) {
+                mat.uniforms.uBurst.value.copy(hit);
+                burstAt = clock.getElapsedTime();
+            }
+        };
+        window.addEventListener('pointerdown', onPointerDown);
+
         const onResize = () => {
             camera.aspect = mount.clientWidth / mount.clientHeight;
             camera.updateProjectionMatrix();
@@ -165,12 +194,12 @@ export default function NeuralField({ className = '' }) {
         window.addEventListener('resize', onResize);
 
         let raf;
-        const clock = new THREE.Clock();
         const animate = () => {
             const t = clock.getElapsedTime();
             mat.uniforms.uTime.value = t;
             mat.uniforms.uHeat.value.lerp(heatTarget, 0.08);
             mat.uniforms.uHeatOn.value += (heatOn - mat.uniforms.uHeatOn.value) * 0.05;
+            mat.uniforms.uBurstT.value = t - burstAt;
 
             points.rotation.y = t * 0.04;
             points.rotation.x = Math.sin(t * 0.1) * 0.08;
@@ -195,6 +224,7 @@ export default function NeuralField({ className = '' }) {
             cancelAnimationFrame(raf);
             window.removeEventListener('mousemove', onMove);
             window.removeEventListener('mouseout', onLeave);
+            window.removeEventListener('pointerdown', onPointerDown);
             window.removeEventListener('resize', onResize);
             geo.dispose();
             mat.dispose();

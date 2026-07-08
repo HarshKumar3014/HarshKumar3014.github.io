@@ -12,12 +12,14 @@ export default function KineticText({ text, delay = 0, speed = 28, decode = fals
     const chars = text.split('');
     const [out, setOut] = useState(() => (reduced || !decode ? chars : chars.map(() => '')));
     const [done, setDone] = useState(reduced || !decode);
+    const [runId, setRunId] = useState(0); // bump to replay the decode (click)
     const wrap = useRef(null);
     const spans = useRef([]);
 
     // phase 1 (optional): scramble into place, left to right
     useEffect(() => {
         if (reduced || !decode) return;
+        if (runId > 0) setDone(false);
         let iteration = 0;
         let timer;
         const tick = () => {
@@ -37,10 +39,10 @@ export default function KineticText({ text, delay = 0, speed = 28, decode = fals
                 setDone(true);
             }
         };
-        timer = setTimeout(tick, delay);
+        timer = setTimeout(tick, runId === 0 ? delay : 0);
         return () => clearTimeout(timer);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [text, delay, speed, decode, reduced]);
+    }, [text, delay, speed, decode, reduced, runId]);
 
     // phase 2: cursor-proximity weight (fine pointers only, only while visible)
     useEffect(() => {
@@ -90,7 +92,12 @@ export default function KineticText({ text, delay = 0, speed = 28, decode = fals
     }, [done, reduced]);
 
     return (
-        <span ref={wrap} className={className} aria-label={text}>
+        <span
+            ref={wrap}
+            className={`${className}${decode && !reduced ? ' cursor-pointer select-none' : ''}`}
+            aria-label={text}
+            onClick={decode && !reduced ? () => done && setRunId((n) => n + 1) : undefined}
+        >
             {chars.map((ch, i) => (
                 <span
                     key={i}

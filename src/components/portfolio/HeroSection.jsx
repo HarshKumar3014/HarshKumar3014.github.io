@@ -8,12 +8,13 @@ import { PROFILE, SKILLS } from './data';
 
 // Full-viewport thesis: the latent field, the name decoding out of noise, and
 // a single line that says what he does. Content parallaxes away on scroll.
-export default function HeroSection({ booted }) {
+export default function HeroSection({ booted, mode, onMode }) {
     const { scrollY } = useScroll();
     const contentY = useTransform(scrollY, [0, 600], [0, -160]);
     const contentOpacity = useTransform(scrollY, [0, 500], [1, 0]);
 
     const d = booted ? 0 : 1800; // wait for boot wipe before decoding
+    const researcher = mode === 'researcher';
 
     return (
         <header id="top" className="relative flex min-h-screen flex-col overflow-hidden">
@@ -51,18 +52,44 @@ export default function HeroSection({ booted }) {
                     </span>
                 </motion.p>
 
+                {/* persona switch: the page rearranges itself around who's reading */}
+                <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: (d + 1550) / 1000, duration: 0.6 }}
+                    className="mt-9 flex flex-wrap items-center justify-center gap-3 font-mono text-xs"
+                >
+                    <span className="tracking-[0.2em] text-muted-foreground">run_as:</span>
+                    {['developer', 'researcher'].map((m) => (
+                        <button
+                            key={m}
+                            type="button"
+                            onClick={() => onMode(m)}
+                            aria-pressed={mode === m}
+                            className={`rounded-full border px-4 py-1.5 transition-all duration-300 ${
+                                mode === m
+                                    ? 'border-ember bg-ember/15 text-heat shadow-[0_0_18px_hsl(14_100%_59%/0.3)]'
+                                    : 'border-ice/25 text-ice/80 hover:border-ice/60 hover:text-ice'
+                            }`}
+                            data-hot
+                        >
+                            {m}
+                        </button>
+                    ))}
+                </motion.div>
+
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: (d + 1700) / 1000, duration: 0.7 }}
-                    className="mt-10 flex flex-wrap items-center justify-center gap-4"
+                    className="mt-8 flex flex-wrap items-center justify-center gap-4"
                 >
                     <MagneticButton>
                         <a
-                            href="#projects"
+                            href={researcher ? '#research' : '#projects'}
                             className="group inline-flex items-center gap-2 rounded-full bg-frost px-7 py-3 font-mono text-sm font-semibold text-void transition-colors hover:bg-heat"
                         >
-                            see the work
+                            {researcher ? 'read the research' : 'see the work'}
                             <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
                         </a>
                     </MagneticButton>
