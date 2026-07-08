@@ -1,6 +1,5 @@
 @import url('https://api.fontshare.com/v2/css?f[]=clash-display@1&f[]=satoshi@400,500,700&f[]=boska@401,501,701&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=VT323&family=Silkscreen:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -12,8 +11,6 @@
         --font-body: 'Satoshi', sans-serif;
         --font-mono: 'JetBrains Mono', monospace;
         --font-serif: 'Boska', Georgia, serif;
-        --font-retro: 'VT323', monospace;
-        --font-pixel: 'Silkscreen', monospace;
 
         /* Thermal system: cold = dormant, hot = activated */
         --void: 216 56% 4%;
@@ -262,18 +259,6 @@
 .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
-}
-
-/* harshOS synthwave horizon grid — perspective floor behind the dock */
-.retro-grid {
-    background-image:
-        linear-gradient(to right, hsl(190 100% 75% / 0.13) 1px, transparent 1px),
-        linear-gradient(to top, hsl(14 100% 59% / 0.16) 1px, transparent 1px);
-    background-size: 46px 38px;
-    transform: perspective(420px) rotateX(62deg);
-    transform-origin: bottom;
-    mask-image: linear-gradient(to top, black 25%, transparent 92%);
-    -webkit-mask-image: linear-gradient(to top, black 25%, transparent 92%);
 }
 
 /* harshOS CRT: scanlines + vignette + phosphor flicker over everything */

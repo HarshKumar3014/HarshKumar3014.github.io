@@ -132,7 +132,7 @@ export default function Terminal({ openApp, closeSelf }) {
 
     return (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
-        <div className="flex h-full min-h-[280px] flex-col font-retro text-[17px] leading-snug" onClick={() => inputRef.current?.focus()}>
+        <div className="flex h-full min-h-[280px] flex-col font-mono text-[12.5px] leading-relaxed" onClick={() => inputRef.current?.focus()}>
             <div className="flex-1 space-y-0.5 overflow-y-auto whitespace-pre-wrap text-[#9be8b7]">
                 {lines.map((line, i) => (
                     <div key={i} className={line.startsWith('harsh@lab') ? 'text-ice' : undefined}>

@@ -72,7 +72,7 @@ export default function OSWindow({ win, app, onClose, onMinimize, onFocus, openA
                     onClick={() => setMaximized((m) => !m)}
                     className="h-3 w-3 rounded-full bg-[#28c840] transition-transform hover:scale-110"
                 />
-                <span className="ml-2 flex items-center gap-1.5 font-pixel text-[10px] text-muted-foreground">
+                <span className="ml-2 flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
                     <app.Icon className="h-3.5 w-3.5" style={{ color: app.tint }} />
                     {app.title}
                 </span>

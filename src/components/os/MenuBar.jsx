@@ -10,7 +10,7 @@ export default function MenuBar({ activeTitle }) {
     }, []);
 
     return (
-        <div className="fixed inset-x-0 top-0 z-[95] flex h-8 items-center justify-between border-b border-ice/10 bg-void/70 px-4 font-pixel text-[10px] text-frost/85 backdrop-blur-xl">
+        <div className="fixed inset-x-0 top-0 z-[95] flex h-8 items-center justify-between border-b border-ice/10 bg-void/70 px-4 font-mono text-[11px] text-frost/85 backdrop-blur-xl">
             <div className="flex items-center gap-4">
                 <a href="/" className="flex items-center gap-1.5 font-semibold transition-colors hover:text-heat">
                     <Flame className="h-3.5 w-3.5 text-ember" />

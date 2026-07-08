@@ -24,7 +24,7 @@ function DockIcon({ app, mouseX, running, onLaunch }) {
                 <app.Icon className="h-1/2 w-1/2" style={{ color: app.tint }} />
             </motion.span>
             {/* label on hover */}
-            <span className="pointer-events-none absolute -top-8 whitespace-nowrap rounded border border-ice/15 bg-void/90 px-2 py-0.5 font-pixel text-[9px] text-frost opacity-0 transition-opacity group-hover:opacity-100">
+            <span className="pointer-events-none absolute -top-8 whitespace-nowrap rounded border border-ice/15 bg-void/90 px-2 py-0.5 font-mono text-[10px] text-frost opacity-0 transition-opacity group-hover:opacity-100">
                 {app.title}
             </span>
             <span

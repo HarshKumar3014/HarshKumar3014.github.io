@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FileText, FolderOpen, BookUser } from 'lucide-react';
-import SynapseField from '../components/portfolio/SynapseField';
 import ThermalCursor from '../components/portfolio/ThermalCursor';
+import DotGrid from '../components/os/DotGrid';
 import MenuBar from '../components/os/MenuBar';
 import Dock from '../components/os/Dock';
 import OSWindow from '../components/os/OSWindow';
@@ -35,7 +35,7 @@ function BootScreen({ onDone }) {
             exit={{ opacity: 0, transition: { duration: 0.5 } }}
             className="fixed inset-0 z-[200] flex items-center justify-center bg-void"
         >
-            <div className="w-[440px] max-w-[85vw] font-retro text-xl leading-snug text-ice/85">
+            <div className="w-[420px] max-w-[85vw] font-mono text-xs leading-relaxed text-ice/80">
                 {BOOT_LINES.slice(0, shown).map((line) => (
                     <p key={line}>
                         {line.endsWith(' ok') ? (
@@ -130,14 +130,12 @@ export default function OS() {
     ];
 
     return (
-        <div className="grain h-screen overflow-hidden bg-[#05030f] font-body text-foreground">
+        <div className="grain h-screen overflow-hidden bg-background font-body text-foreground">
             <AnimatePresence>{!booted && <BootScreen onDone={() => setBooted(true)} />}</AnimatePresence>
 
-            {/* wallpaper: dusk gradient + synapse globe + synthwave horizon grid */}
-            <div className="pointer-events-none fixed inset-0 z-0 bg-[linear-gradient(180deg,#04020c_0%,#0b0726_38%,#180d2e_62%,#2b1024_82%,#3b1410_100%)]" />
-            <SynapseField />
-            <div className="retro-grid pointer-events-none fixed inset-x-[-20%] bottom-0 z-0 h-[46vh]" aria-hidden />
-            <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(4,2,12,0.65)_100%)]" />
+            {/* wallpaper: staggered dot grid that ripples on click */}
+            <DotGrid />
+            <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,hsl(216_56%_4%/0.6)_100%)]" />
             <ThermalCursor />
 
             <MenuBar activeTitle={top && !top.minimized ? appById(top.id)?.title : 'desktop'} />
@@ -152,7 +150,7 @@ export default function OS() {
                         className="group flex w-20 flex-col items-center gap-1.5 rounded p-2 transition-colors hover:bg-ice/5"
                     >
                         <Icon className="h-8 w-8 text-ice/80 transition-colors group-hover:text-heat" />
-                        <span className="break-all text-center font-pixel text-[9px] leading-tight text-frost/85">
+                        <span className="break-all text-center font-mono text-[10px] leading-tight text-frost/85">
                             {label}
                         </span>
                     </button>
@@ -183,7 +181,7 @@ export default function OS() {
             <Dock runningIds={runningIds} onLaunch={openApp} />
 
             {/* hint */}
-            <p className="pointer-events-none fixed bottom-24 left-1/2 z-[5] -translate-x-1/2 font-pixel text-[9px] tracking-[0.2em] text-muted-foreground/60">
+            <p className="pointer-events-none fixed bottom-24 left-1/2 z-[5] -translate-x-1/2 font-mono text-[10px] tracking-[0.25em] text-muted-foreground/60">
                 click icons · drag windows · try the terminal
             </p>
             <ModeChip />
