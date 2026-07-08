@@ -74,17 +74,20 @@ export default function WorldScene({ focusRef, labelRefs, telemetryRef }) {
         mount.appendChild(renderer.domElement);
 
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        // whole system lives in one group so the galaxy intro can scale it in
+        const mainGroup = new THREE.Group();
+        scene.add(mainGroup);
         const disposables = [];
         const track = (obj) => (disposables.push(obj), obj);
 
         // --- deep starfield, two parallax shells ---
         const starGeoFar = track(new THREE.BufferGeometry());
         starGeoFar.setAttribute('position', new THREE.BufferAttribute(makeSphereCloud(isMobile ? 900 : 2400, 80, 30), 3));
-        scene.add(new THREE.Points(starGeoFar, track(pointsMaterial(0.16, [0.6, 0.75, 0.95], 0.5))));
+        mainGroup.add(new THREE.Points(starGeoFar, track(pointsMaterial(0.16, [0.6, 0.75, 0.95], 0.5))));
         const starGeoNear = track(new THREE.BufferGeometry());
         starGeoNear.setAttribute('position', new THREE.BufferAttribute(makeSphereCloud(isMobile ? 400 : 1100, 38, 14), 3));
         const nearStars = new THREE.Points(starGeoNear, track(pointsMaterial(0.1, [0.75, 0.88, 1.0], 0.7)));
-        scene.add(nearStars);
+        mainGroup.add(nearStars);
 
         // --- nebulae ---
         const nebulaDefs = [
@@ -104,7 +107,7 @@ export default function WorldScene({ focusRef, labelRefs, telemetryRef }) {
             const sprite = new THREE.Sprite(mat);
             sprite.position.set(...pos);
             sprite.scale.setScalar(scale);
-            scene.add(sprite);
+            mainGroup.add(sprite);
             return sprite;
         });
 
@@ -117,7 +120,7 @@ export default function WorldScene({ focusRef, labelRefs, telemetryRef }) {
         emberGeo.setAttribute('position', new THREE.BufferAttribute(makeSphereCloud(isMobile ? 130 : 280, 1.1, 0.5), 3));
         const emberMat = track(pointsMaterial(0.1, [1.0, 0.45, 0.2], 0.9));
         coreGroup.add(new THREE.Points(emberGeo, emberMat));
-        scene.add(coreGroup);
+        mainGroup.add(coreGroup);
 
         // --- orbital stations + wiring + pulses ---
         const nodeGroups = {};
@@ -155,7 +158,7 @@ export default function WorldScene({ focusRef, labelRefs, telemetryRef }) {
                 new THREE.Vector3((Math.random() - 0.5) * 2.4, (Math.random() - 0.5) * 2.4, (Math.random() - 0.5) * 2.4)
             );
             const curvePts = new THREE.QuadraticBezierCurve3(from, mid, to).getPoints(60);
-            scene.add(new THREE.Line(
+            mainGroup.add(new THREE.Line(
                 track(new THREE.BufferGeometry().setFromPoints(curvePts)),
                 track(new THREE.LineBasicMaterial({ color: 0x7de0ff, transparent: true, opacity: 0.13 }))
             ));
@@ -164,20 +167,47 @@ export default function WorldScene({ focusRef, labelRefs, telemetryRef }) {
             for (let k = 0; k < 2; k++) {
                 const geo = track(new THREE.BufferGeometry());
                 geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(3), 3));
-                scene.add(new THREE.Points(geo, track(pointsMaterial(0.16, [1.0, 0.5, 0.22], 0.9))));
+                mainGroup.add(new THREE.Points(geo, track(pointsMaterial(0.16, [1.0, 0.5, 0.22], 0.9))));
                 pulses.push({ pts: curvePts, geo, offset: Math.random(), speed: 0.1 + Math.random() * 0.12 });
             }
 
-            scene.add(g);
+            mainGroup.add(g);
             nodeGroups[node.id] = g;
         });
+
+        // --- entrance galaxy: a spiral that breaks apart into the system ---
+        const galaxy = new THREE.Group();
+        const spiralCloud = (count, rMin, rMax, rPow, flat, color, size, opacity) => {
+            const out = new Float32Array(count * 3);
+            for (let i = 0; i < count; i++) {
+                const r = rMin + Math.pow(Math.random(), rPow) * (rMax - rMin);
+                const a = r * 0.5 + (i % 2) * Math.PI + (Math.random() - 0.5) * 0.45;
+                out[i * 3] = Math.cos(a) * r;
+                out[i * 3 + 1] = (Math.random() - 0.5) * flat * Math.exp(-r / 9);
+                out[i * 3 + 2] = Math.sin(a) * r * 0.9;
+            }
+            const geo = track(new THREE.BufferGeometry());
+            geo.setAttribute('position', new THREE.BufferAttribute(out, 3));
+            const mat = track(pointsMaterial(size, color, opacity));
+            galaxy.add(new THREE.Points(geo, mat));
+            return mat;
+        };
+        const galaxyMats = [
+            spiralCloud(isMobile ? 500 : 1400, 0, 5, 1.9, 2.2, [1.0, 0.55, 0.28], 0.11, 0.95),
+            spiralCloud(isMobile ? 900 : 2600, 1.5, 14, 0.75, 1.6, [0.55, 0.85, 1.0], 0.09, 0.8),
+        ];
+        galaxy.rotation.x = 0.5;
+        scene.add(galaxy);
+        const INTRO_SPIN = reduced ? 0 : 2.0;
+        const INTRO_BREAK = reduced ? 0.0001 : 1.4;
+        let breakEased = reduced ? 1 : 0;
 
         // --- camera rig ---
         const HOME_R = isMobile ? 22 : 16.5;
         const rig = {
             theta: 0.9,
             phi: 1.25,
-            radius: reduced ? HOME_R : 85, // warp in from deep space
+            radius: reduced ? HOME_R : 46, // warp in from deep space
             thetaT: 0.9,
             phiT: 1.25,
             radiusT: HOME_R,
@@ -244,6 +274,18 @@ export default function WorldScene({ focusRef, labelRefs, telemetryRef }) {
             const t = clock.getElapsedTime();
             const focusId = focusRef.current;
             frame++;
+
+            // galaxy intro: spin solo, then break apart as the system scales in
+            const breakP = Math.min(Math.max((t - INTRO_SPIN) / INTRO_BREAK, 0), 1);
+            breakEased = breakP * breakP * (3 - 2 * breakP);
+            if (galaxy.visible) {
+                galaxy.rotation.y = t * 0.22;
+                galaxy.scale.setScalar(1 + breakEased * 7);
+                galaxyMats[0].opacity = 0.95 * (1 - breakEased);
+                galaxyMats[1].opacity = 0.8 * (1 - breakEased);
+                if (breakEased >= 1) galaxy.visible = false;
+            }
+            mainGroup.scale.setScalar(Math.max(0.001, breakEased));
 
             if (!dragging && !focusId && !reduced) rig.thetaT += 0.0006;
 
@@ -336,7 +378,7 @@ export default function WorldScene({ focusRef, labelRefs, telemetryRef }) {
                     projVec.set(g.position.x, g.position.y + 1.8, g.position.z);
                 }
                 projVec.project(camera);
-                const behind = projVec.z > 1;
+                const behind = projVec.z > 1 || breakEased < 1;
                 const x = (projVec.x * 0.5 + 0.5) * window.innerWidth;
                 const y = (-projVec.y * 0.5 + 0.5) * window.innerHeight;
                 el.style.transform = `translate(-50%, -50%) translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
@@ -350,7 +392,7 @@ export default function WorldScene({ focusRef, labelRefs, telemetryRef }) {
                     `az ${((rig.theta * 57.2958) % 360).toFixed(1).padStart(6)}° · ` +
                     `el ${(90 - rig.phi * 57.2958).toFixed(1)}° · ` +
                     `r ${rig.radius.toFixed(1)}u · ` +
-                    (focusId ? `docked://${focusId}` : 'orbit://free');
+                    (breakEased < 1 ? 'entering sector…' : focusId ? `docked://${focusId}` : 'orbit://free');
             }
 
             renderer.render(scene, camera);

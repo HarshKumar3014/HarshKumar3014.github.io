@@ -1,6 +1,7 @@
-import { User, FlaskConical, Hammer, ScrollText, Mail, TerminalSquare } from 'lucide-react';
+import { User, FlaskConical, Hammer, ScrollText, Mail, TerminalSquare, Share2 } from 'lucide-react';
 import { CorePanel, ResearchPanel, BuildsPanel, LogPanel, ContactPanel } from '../world/WorldPanels';
 import Terminal from './Terminal';
+import NeuralApp from './NeuralApp';
 
 // harshOS app registry. Window geometry is the launch default; the user
 // drags them wherever after that.
@@ -49,6 +50,15 @@ export const APPS = [
         w: 520,
         h: 480,
         Body: ContactPanel,
+    },
+    {
+        id: 'neural',
+        title: 'neural.app',
+        Icon: Share2,
+        tint: 'hsl(190 100% 75%)',
+        w: 600,
+        h: 480,
+        Body: NeuralApp,
     },
     {
         id: 'terminal',

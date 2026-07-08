@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Award, BadgeCheck } from 'lucide-react';
 import SectionHeader from './SectionHeader';
+import StackCard from './StackCard';
 import { CREDENTIALS } from './data';
 
 export default function CredentialsSection() {
@@ -12,6 +13,15 @@ export default function CredentialsSection() {
                 title="*Receipts*"
                 description="Awards and certifications, verified and stamped."
             />
+            <motion.div
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.7 }}
+                className="mb-10"
+            >
+                <StackCard />
+            </motion.div>
             <div className="grid gap-3 sm:grid-cols-2">
                 {CREDENTIALS.map((cred, i) => (
                     <motion.div

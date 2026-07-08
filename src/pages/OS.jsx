@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { FileText, FolderOpen, BookUser } from 'lucide-react';
 import ThermalCursor from '../components/portfolio/ThermalCursor';
 import DotGrid from '../components/os/DotGrid';
+import NeuralPlayground from '../components/os/NeuralPlayground';
 import MenuBar from '../components/os/MenuBar';
 import Dock from '../components/os/Dock';
 import OSWindow from '../components/os/OSWindow';
@@ -136,6 +137,10 @@ export default function OS() {
             {/* wallpaper: staggered dot grid that ripples on click */}
             <DotGrid />
             <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,hsl(216_56%_4%/0.6)_100%)]" />
+            {/* ambient neuron toy on the desktop (right side, clear of icons) */}
+            <div className="fixed bottom-32 right-6 top-16 z-[6] hidden w-[38vw] md:block">
+                <NeuralPlayground count={6} ambient />
+            </div>
             <ThermalCursor />
 
             <MenuBar activeTitle={top && !top.minimized ? appById(top.id)?.title : 'desktop'} />
