@@ -20,7 +20,7 @@ const NEOFETCH = String.raw`
 // developer visitor to feel at home.
 export default function Terminal({ openApp, closeSelf }) {
     const [lines, setLines] = useState([
-        'harshOS 2.0 — phosphor kernel',
+        'harshOS 2.0 — thermal kernel',
         "type 'help' to see what this thing does",
         '',
     ]);
@@ -135,19 +135,19 @@ export default function Terminal({ openApp, closeSelf }) {
         <div className="flex h-full min-h-[280px] flex-col font-mono text-[12.5px] leading-relaxed" onClick={() => inputRef.current?.focus()}>
             <div className="flex-1 space-y-0.5 overflow-y-auto whitespace-pre-wrap text-[#9be8b7]">
                 {lines.map((line, i) => (
-                    <div key={i} className={line.startsWith('harsh@lab') ? 'text-[#8dffc5]' : undefined}>
+                    <div key={i} className={line.startsWith('harsh@lab') ? 'text-ice' : undefined}>
                         {line || ' '}
                     </div>
                 ))}
                 <div ref={bottomRef} />
             </div>
             <form onSubmit={onSubmit} className="mt-2 flex items-center gap-2 border-t border-ice/10 pt-2">
-                <span className="text-[#8dffc5]">harsh@lab:~$</span>
+                <span className="text-ice">harsh@lab:~$</span>
                 <input
                     ref={inputRef}
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    className="flex-1 bg-transparent text-[#d9ffe9] caret-[#ffb347] outline-none"
+                    className="flex-1 bg-transparent text-frost caret-ember outline-none"
                     autoFocus
                     autoCapitalize="off"
                     autoCorrect="off"
