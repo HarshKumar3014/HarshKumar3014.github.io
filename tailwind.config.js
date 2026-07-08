@@ -9,6 +9,8 @@ module.exports = {
 				body: ['var(--font-body)'],
 				mono: ['var(--font-mono)'],
 				serif: ['var(--font-serif)'],
+				retro: ['var(--font-retro)'],
+				pixel: ['var(--font-pixel)'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
