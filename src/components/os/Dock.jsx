@@ -19,17 +19,17 @@ function DockIcon({ app, mouseX, running, onLaunch }) {
             <motion.span
                 ref={ref}
                 style={{ width: size, height: size }}
-                className="flex items-center justify-center rounded-2xl border border-ice/20 bg-abyss/80 backdrop-blur-md transition-colors group-hover:border-ember/60"
+                className="flex items-center justify-center rounded-2xl border border-[#57ffa3]/20 bg-black/70 backdrop-blur-md transition-colors group-hover:border-[#ffb347]/70"
             >
                 <app.Icon className="h-1/2 w-1/2" style={{ color: app.tint }} />
             </motion.span>
             {/* label on hover */}
-            <span className="pointer-events-none absolute -top-8 whitespace-nowrap rounded border border-ice/15 bg-void/90 px-2 py-0.5 font-mono text-[10px] text-frost opacity-0 transition-opacity group-hover:opacity-100">
+            <span className="pointer-events-none absolute -top-8 whitespace-nowrap rounded border border-[#57ffa3]/20 bg-black/90 px-2 py-0.5 font-mono text-[10px] text-[#8dffc5] opacity-0 transition-opacity group-hover:opacity-100">
                 {app.title}
             </span>
             <span
                 className={`mt-1 h-1 w-1 rounded-full transition-colors ${
-                    running ? 'bg-heat' : 'bg-transparent'
+                    running ? 'bg-[#ffb347]' : 'bg-transparent'
                 }`}
             />
         </button>
@@ -44,7 +44,7 @@ export default function Dock({ runningIds, onLaunch }) {
             <div
                 onMouseMove={(e) => mouseX.set(e.clientX)}
                 onMouseLeave={() => mouseX.set(Infinity)}
-                className="flex items-end gap-2.5 rounded-2xl border border-ice/15 bg-void/60 px-3 pb-1 pt-2 shadow-[0_16px_48px_rgba(0,0,0,0.55)] backdrop-blur-xl"
+                className="flex items-end gap-2.5 rounded-2xl border border-[#57ffa3]/15 bg-black/60 px-3 pb-1 pt-2 shadow-[0_16px_48px_rgba(0,0,0,0.55)] backdrop-blur-xl"
             >
                 {APPS.map((app) => (
                     <DockIcon

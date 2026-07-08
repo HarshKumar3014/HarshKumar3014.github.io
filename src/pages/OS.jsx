@@ -7,9 +7,10 @@ import MenuBar from '../components/os/MenuBar';
 import Dock from '../components/os/Dock';
 import OSWindow from '../components/os/OSWindow';
 import { appById } from '../components/os/apps';
+import ModeChip from '../components/ModeChip';
 
 const BOOT_LINES = [
-    'harshOS 2.0 — thermal kernel',
+    'harshOS 2.0 — phosphor kernel',
     'probing neural substrate ......... ok',
     'mounting /home/harsh/lab ......... ok',
     'loading 2 papers, 6 builds ....... ok',
@@ -34,11 +35,11 @@ function BootScreen({ onDone }) {
             exit={{ opacity: 0, transition: { duration: 0.5 } }}
             className="fixed inset-0 z-[200] flex items-center justify-center bg-void"
         >
-            <div className="w-[420px] max-w-[85vw] font-mono text-xs leading-relaxed text-ice/80">
+            <div className="w-[420px] max-w-[85vw] font-mono text-xs leading-relaxed text-[#57ffa3]/90">
                 {BOOT_LINES.slice(0, shown).map((line) => (
                     <p key={line}>{line}</p>
                 ))}
-                {shown >= BOOT_LINES.length && <p className="caret text-frost" />}
+                {shown >= BOOT_LINES.length && <p className="caret text-[#8dffc5]" />}
             </div>
         </motion.div>
     );
@@ -120,12 +121,14 @@ export default function OS() {
     ];
 
     return (
-        <div className="grain h-screen overflow-hidden bg-background font-body text-foreground">
+        <div className="grain h-screen overflow-hidden bg-[#010a05] font-body text-foreground">
             <AnimatePresence>{!booted && <BootScreen onDone={() => setBooted(true)} />}</AnimatePresence>
 
-            {/* wallpaper */}
-            <SynapseField />
-            <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,hsl(216_56%_4%/0.7)_100%)]" />
+            {/* wallpaper: synapse globe, hue-shifted into phosphor green */}
+            <div className="fixed inset-0 z-0" style={{ filter: 'hue-rotate(95deg) saturate(0.85) brightness(0.9)' }}>
+                <SynapseField />
+            </div>
+            <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(1,10,5,0.8)_100%)]" />
             <ThermalCursor />
 
             <MenuBar activeTitle={top && !top.minimized ? appById(top.id)?.title : 'desktop'} />
@@ -137,10 +140,10 @@ export default function OS() {
                         key={label}
                         type="button"
                         onClick={onOpen}
-                        className="group flex w-20 flex-col items-center gap-1.5 rounded p-2 transition-colors hover:bg-ice/5"
+                        className="group flex w-20 flex-col items-center gap-1.5 rounded p-2 transition-colors hover:bg-[#57ffa3]/5"
                     >
-                        <Icon className="h-8 w-8 text-ice/80 transition-colors group-hover:text-heat" />
-                        <span className="break-all text-center font-mono text-[10px] leading-tight text-frost/85">
+                        <Icon className="h-8 w-8 text-[#57ffa3]/85 transition-colors group-hover:text-[#ffb347]" />
+                        <span className="break-all text-center font-mono text-[10px] leading-tight text-[#8dffc5]/90">
                             {label}
                         </span>
                     </button>
@@ -148,7 +151,9 @@ export default function OS() {
             </div>
 
             {/* window layer */}
-            <div ref={desktopRef} className="fixed inset-x-2 bottom-24 top-10 z-10">
+            {/* pointer-events-none: this layer must not eat desktop clicks;
+                each window re-enables its own hit area */}
+            <div ref={desktopRef} className="pointer-events-none fixed inset-x-2 bottom-24 top-10 z-10">
                 <AnimatePresence>
                     {visible.map((win) => (
                         <OSWindow
@@ -169,9 +174,14 @@ export default function OS() {
             <Dock runningIds={runningIds} onLaunch={openApp} />
 
             {/* hint */}
-            <p className="pointer-events-none fixed bottom-24 left-1/2 z-[5] -translate-x-1/2 font-mono text-[10px] tracking-[0.25em] text-muted-foreground/60">
+            <p className="pointer-events-none fixed bottom-24 left-1/2 z-[5] -translate-x-1/2 font-mono text-[10px] tracking-[0.25em] text-[#57ffa3]/40">
                 click icons · drag windows · try the terminal
             </p>
+            <ModeChip phosphor />
+            {/* CRT stack: scanlines, vignette, phosphor flicker */}
+            <div className="crt-scanlines pointer-events-none fixed inset-0 z-[150] opacity-60" aria-hidden />
+            <div className="crt-vignette pointer-events-none fixed inset-0 z-[150]" aria-hidden />
+            <div className="crt-flicker pointer-events-none fixed inset-0 z-[150]" aria-hidden />
         </div>
     );
 }

@@ -261,6 +261,42 @@
     scrollbar-width: none;
 }
 
+/* harshOS CRT: scanlines + vignette + phosphor flicker over everything */
+.crt-scanlines {
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0) 0px,
+        rgba(0, 0, 0, 0) 2px,
+        rgba(0, 0, 0, 0.22) 3px
+    );
+}
+
+.crt-vignette {
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 8, 3, 0.55) 100%);
+}
+
+@keyframes crt-flicker {
+    0%, 100% { opacity: 0.06; }
+    47% { opacity: 0.06; }
+    48% { opacity: 0.11; }
+    49% { opacity: 0.05; }
+    83% { opacity: 0.06; }
+    84% { opacity: 0.1; }
+}
+
+.crt-flicker {
+    background: #57ffa3;
+    mix-blend-mode: overlay;
+    animation: crt-flicker 7s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .crt-flicker {
+        animation: none;
+        opacity: 0.05;
+    }
+}
+
 ::selection {
     background: hsl(var(--ember) / 0.35);
     color: hsl(var(--frost));

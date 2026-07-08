@@ -12,6 +12,7 @@ import ExperienceSection from '../components/portfolio/ExperienceSection';
 import CredentialsSection from '../components/portfolio/CredentialsSection';
 import ContactSection from '../components/portfolio/ContactSection';
 import Footer from '../components/portfolio/Footer';
+import ModeChip from '../components/ModeChip';
 
 export default function Home() {
     const [booted, setBooted] = useState(false);
@@ -68,6 +69,7 @@ export default function Home() {
                 <ContactSection />
             </main>
             <Footer />
+            <ModeChip />
         </div>
     );
 }

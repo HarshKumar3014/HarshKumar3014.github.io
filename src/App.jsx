@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import Cinema from './pages/Cinema';
+import ModeSelect from './pages/ModeSelect';
 import World from './pages/World';
 import OS from './pages/OS';
 import Home from './pages/Home';
@@ -22,10 +22,10 @@ function App() {
         <Router>
             <ScrollToTop />
             <Routes>
-                <Route path="/" element={<Cinema />} />
+                <Route path="/" element={<ModeSelect />} />
+                <Route path="/standard" element={<Home />} />
                 <Route path="/world" element={<World />} />
                 <Route path="/os" element={<OS />} />
-                <Route path="/classic" element={<Home />} />
                 <Route path="/archive" element={<Archive />} />
                 <Route path="*" element={<PageNotFound />} />
             </Routes>

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import ThermalCursor from '../components/portfolio/ThermalCursor';
+import ModeChip from '../components/ModeChip';
 import WorldScene from '../components/world/WorldScene';
 import WorldPanels from '../components/world/WorldPanels';
 import { NODES, CORE } from '../components/world/nodes';
@@ -100,6 +101,7 @@ export default function World() {
             )}
 
             <WorldPanels focus={focus} onClose={undock} />
+            {!focus && <ModeChip />}
         </div>
     );
 }

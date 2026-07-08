@@ -39,8 +39,8 @@ export default function OSWindow({ win, app, onClose, onMinimize, onFocus, openA
                           height: `min(${app.h}px, calc(100dvh - 110px))`,
                       }
             }
-            className={`instrument flex flex-col overflow-hidden rounded-lg border bg-abyss/85 shadow-[0_24px_80px_rgba(0,0,0,0.6)] backdrop-blur-xl ${
-                isTop ? 'border-ice/30' : 'border-ice/10'
+            className={`instrument pointer-events-auto flex flex-col overflow-hidden rounded-lg border shadow-[0_24px_80px_rgba(0,0,0,0.7)] backdrop-blur-xl ${
+                isTop ? 'border-[#57ffa3]/40 bg-[#03140b]/90' : 'border-[#57ffa3]/12 bg-[#02100a]/85'
             }`}
             role="dialog"
             aria-label={app.title}
@@ -52,27 +52,27 @@ export default function OSWindow({ win, app, onClose, onMinimize, onFocus, openA
                     if (!maximized) controls.start(e);
                 }}
                 onDoubleClick={() => setMaximized((m) => !m)}
-                className="flex shrink-0 cursor-grab items-center gap-2 border-b border-ice/10 bg-void/50 px-3 py-2.5 active:cursor-grabbing"
+                className="flex shrink-0 cursor-grab items-center gap-2 border-b border-[#57ffa3]/12 bg-black/50 px-3 py-2.5 active:cursor-grabbing"
             >
                 <button
                     type="button"
                     aria-label="Close"
                     onClick={() => onClose(win.id)}
-                    className="h-3 w-3 rounded-full bg-ember transition-transform hover:scale-110"
+                    className="h-3 w-3 rounded-full bg-[#e64533] transition-transform hover:scale-110"
                 />
                 <button
                     type="button"
                     aria-label="Minimize"
                     onClick={() => onMinimize(win.id)}
-                    className="h-3 w-3 rounded-full bg-heat transition-transform hover:scale-110"
+                    className="h-3 w-3 rounded-full bg-[#ffb347] transition-transform hover:scale-110"
                 />
                 <button
                     type="button"
                     aria-label="Maximize"
                     onClick={() => setMaximized((m) => !m)}
-                    className="h-3 w-3 rounded-full bg-ice/70 transition-transform hover:scale-110"
+                    className="h-3 w-3 rounded-full bg-[#57ffa3] transition-transform hover:scale-110"
                 />
-                <span className="ml-2 flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
+                <span className="ml-2 flex items-center gap-1.5 font-mono text-xs text-[#57ffa3]/70">
                     <app.Icon className="h-3.5 w-3.5" style={{ color: app.tint }} />
                     {app.title}
                 </span>
