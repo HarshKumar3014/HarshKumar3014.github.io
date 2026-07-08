@@ -202,6 +202,11 @@ export function ForwardPassNet({ bare = false }) {
                     <span>output</span>
                 </div>
             </div>
+            {bare && (
+                <p className="mt-3 text-center font-mono text-[11px] tracking-[0.2em] text-ice/60">
+                    press the input neurons — watch the signal find its way out
+                </p>
+            )}
         </div>
     );
 }

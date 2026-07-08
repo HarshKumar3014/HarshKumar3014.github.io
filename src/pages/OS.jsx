@@ -138,7 +138,7 @@ export default function OS() {
             <DotGrid />
             <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,hsl(216_56%_4%/0.6)_100%)]" />
             {/* the forward-pass net lives on the desktop too — play without opening the app */}
-            <div className="fixed right-8 top-24 z-[6] hidden w-[470px] lg:block">
+            <div className="fixed right-10 top-1/2 z-[6] hidden w-[min(46vw,680px)] -translate-y-1/2 lg:block">
                 <ForwardPassNet bare />
             </div>
             <ThermalCursor />
