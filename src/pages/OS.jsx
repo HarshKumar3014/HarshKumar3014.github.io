@@ -189,7 +189,7 @@ export default function OS() {
             <p className="pointer-events-none fixed bottom-24 left-1/2 z-[5] -translate-x-1/2 font-mono text-[10px] tracking-[0.25em] text-muted-foreground/60">
                 click icons · drag windows · try the terminal
             </p>
-            <ModeChip />
+            <ModeChip position="bottom-24 right-3 sm:bottom-5 sm:right-5" />
         </div>
     );
 }
