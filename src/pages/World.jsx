@@ -67,14 +67,17 @@ export default function World() {
                 <a href="/" className="pointer-events-auto font-display text-lg font-semibold text-frost transition-colors hover:text-heat">
                     hk<span className="text-ember">.</span>
                 </a>
-                <a
-                    href="/Harsh_Resume.pdf"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="pointer-events-auto rounded-full border border-ice/20 bg-abyss/60 px-4 py-1.5 font-mono text-xs text-ice backdrop-blur-md transition-colors hover:border-ember hover:text-heat"
-                >
-                    resume
-                </a>
+                {/* hidden while docked — it would sit on top of the panel's close button */}
+                {!focus && (
+                    <a
+                        href="/Harsh_Resume.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="pointer-events-auto rounded-full border border-ice/20 bg-abyss/60 px-4 py-1.5 font-mono text-xs text-ice backdrop-blur-md transition-colors hover:border-ember hover:text-heat"
+                    >
+                        resume
+                    </a>
+                )}
             </div>
 
             {/* telemetry */}
