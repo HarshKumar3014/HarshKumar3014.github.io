@@ -136,8 +136,7 @@ export default function OS() {
                     <button
                         key={label}
                         type="button"
-                        onDoubleClick={onOpen}
-                        onClick={(e) => e.detail === 1 && window.innerWidth < 640 && onOpen()}
+                        onClick={onOpen}
                         className="group flex w-20 flex-col items-center gap-1.5 rounded p-2 transition-colors hover:bg-ice/5"
                     >
                         <Icon className="h-8 w-8 text-ice/80 transition-colors group-hover:text-heat" />
@@ -171,7 +170,7 @@ export default function OS() {
 
             {/* hint */}
             <p className="pointer-events-none fixed bottom-24 left-1/2 z-[5] -translate-x-1/2 font-mono text-[10px] tracking-[0.25em] text-muted-foreground/60">
-                double-click icons · drag windows · try the terminal
+                click icons · drag windows · try the terminal
             </p>
         </div>
     );
