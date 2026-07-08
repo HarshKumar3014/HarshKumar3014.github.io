@@ -42,7 +42,7 @@ function Socials({ size = 18 }) {
     );
 }
 
-function CorePanel() {
+export function CorePanel() {
     return (
         <>
             <h2 className="font-display text-4xl font-semibold leading-[0.95] text-frost">
@@ -80,7 +80,7 @@ function CorePanel() {
     );
 }
 
-function ResearchPanel() {
+export function ResearchPanel() {
     return (
         <div className="space-y-8">
             {PUBLICATIONS.map((pub) => (
@@ -119,7 +119,7 @@ function ResearchPanel() {
     );
 }
 
-function BuildsPanel() {
+export function BuildsPanel() {
     return (
         <div className="space-y-6">
             {PROJECTS.map((project) => (
@@ -165,7 +165,7 @@ function BuildsPanel() {
     );
 }
 
-function LogPanel() {
+export function LogPanel() {
     return (
         <div className="space-y-6">
             {EXPERIENCE.map((item) => (
@@ -221,7 +221,7 @@ function LogPanel() {
     );
 }
 
-function ContactPanel() {
+export function ContactPanel() {
     const [copied, setCopied] = useState(false);
     const btnRef = useRef(null);
     const reduced = useReducedMotion();

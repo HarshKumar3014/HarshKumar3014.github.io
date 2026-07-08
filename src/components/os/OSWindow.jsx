@@ -1,0 +1,86 @@
+import { useState } from 'react';
+import { motion, useDragControls } from 'framer-motion';
+
+// One harshOS window: draggable by its title bar, traffic lights, focus on
+// pointer-down. Maximize toggles to (almost) full screen.
+export default function OSWindow({ win, app, onClose, onMinimize, onFocus, openApp, isTop, desktopRef }) {
+    const controls = useDragControls();
+    const [maximized, setMaximized] = useState(false);
+    const { Body } = app;
+
+    return (
+        <motion.div
+            drag={!maximized}
+            dragControls={controls}
+            dragListener={false}
+            dragMomentum={false}
+            dragConstraints={desktopRef}
+            initial={{ opacity: 0, scale: 0.75, y: 60 }}
+            animate={{
+                opacity: 1,
+                scale: 1,
+                y: 0,
+                ...(maximized
+                    ? { x: 0 }
+                    : {}),
+            }}
+            exit={{ opacity: 0, scale: 0.85, y: 40, transition: { duration: 0.18 } }}
+            transition={{ type: 'spring', stiffness: 300, damping: 26 }}
+            onPointerDown={() => onFocus(win.id)}
+            style={
+                maximized
+                    ? { zIndex: win.z, position: 'absolute', inset: '8px', width: 'auto', height: 'auto' }
+                    : {
+                          zIndex: win.z,
+                          position: 'absolute',
+                          left: win.x,
+                          top: win.y,
+                          width: `min(${app.w}px, calc(100vw - 24px))`,
+                          height: `min(${app.h}px, calc(100dvh - 110px))`,
+                      }
+            }
+            className={`instrument flex flex-col overflow-hidden rounded-lg border bg-abyss/85 shadow-[0_24px_80px_rgba(0,0,0,0.6)] backdrop-blur-xl ${
+                isTop ? 'border-ice/30' : 'border-ice/10'
+            }`}
+            role="dialog"
+            aria-label={app.title}
+        >
+            {/* title bar */}
+            <div
+                onPointerDown={(e) => {
+                    onFocus(win.id);
+                    if (!maximized) controls.start(e);
+                }}
+                onDoubleClick={() => setMaximized((m) => !m)}
+                className="flex shrink-0 cursor-grab items-center gap-2 border-b border-ice/10 bg-void/50 px-3 py-2.5 active:cursor-grabbing"
+            >
+                <button
+                    type="button"
+                    aria-label="Close"
+                    onClick={() => onClose(win.id)}
+                    className="h-3 w-3 rounded-full bg-ember transition-transform hover:scale-110"
+                />
+                <button
+                    type="button"
+                    aria-label="Minimize"
+                    onClick={() => onMinimize(win.id)}
+                    className="h-3 w-3 rounded-full bg-heat transition-transform hover:scale-110"
+                />
+                <button
+                    type="button"
+                    aria-label="Maximize"
+                    onClick={() => setMaximized((m) => !m)}
+                    className="h-3 w-3 rounded-full bg-ice/70 transition-transform hover:scale-110"
+                />
+                <span className="ml-2 flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
+                    <app.Icon className="h-3.5 w-3.5" style={{ color: app.tint }} />
+                    {app.title}
+                </span>
+            </div>
+
+            <div className="min-h-0 flex-1 overflow-y-auto p-5">
+                <Body openApp={openApp} closeSelf={() => onClose(win.id)} />
+            </div>
+        </motion.div>
+    );
+}
