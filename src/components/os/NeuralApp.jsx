@@ -23,7 +23,7 @@ function buildLayout() {
 }
 const POS = buildLayout();
 
-export default function NeuralApp() {
+export function ForwardPassNet({ bare = false }) {
     const [pressed, setPressed] = useState([]);
     const [run, setRun] = useState(null); // { id, acts, winner }
     const timer = useRef(null);
@@ -59,9 +59,9 @@ export default function NeuralApp() {
         : `arm the input layer: ${pressed.length}/${LAYERS[0]}`;
 
     return (
-        <div className="flex h-full min-h-[320px] flex-col">
+        <div className={bare ? 'flex flex-col' : 'flex h-full min-h-[320px] flex-col'}>
             <div className="flex items-center justify-between">
-                <p className="font-mono text-[11px] text-muted-foreground">{status}</p>
+                <p className={`font-mono ${bare ? 'text-[10px] text-muted-foreground/70' : 'text-[11px] text-muted-foreground'}`}>{status}</p>
                 <button
                     type="button"
                     onClick={reset}
@@ -72,7 +72,13 @@ export default function NeuralApp() {
                 </button>
             </div>
 
-            <div className="relative mt-3 min-h-0 flex-1 overflow-hidden rounded border border-ice/10 bg-void/50">
+            <div
+                className={
+                    bare
+                        ? 'relative mt-2 overflow-hidden rounded'
+                        : 'relative mt-3 min-h-0 flex-1 overflow-hidden rounded border border-ice/10 bg-void/50'
+                }
+            >
                 <svg viewBox={`0 0 ${W} ${H}`} className="h-full w-full" role="img" aria-label="Feedforward neural network demo">
                     {/* edges */}
                     {POS.slice(0, -1).map((layer, l) =>
@@ -198,4 +204,9 @@ export default function NeuralApp() {
             </div>
         </div>
     );
+}
+
+// windowed version for the dock
+export default function NeuralApp() {
+    return <ForwardPassNet />;
 }

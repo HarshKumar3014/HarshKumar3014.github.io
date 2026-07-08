@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { FileText, FolderOpen, BookUser } from 'lucide-react';
 import ThermalCursor from '../components/portfolio/ThermalCursor';
 import DotGrid from '../components/os/DotGrid';
+import { ForwardPassNet } from '../components/os/NeuralApp';
 import MenuBar from '../components/os/MenuBar';
 import Dock from '../components/os/Dock';
 import OSWindow from '../components/os/OSWindow';
@@ -136,6 +137,10 @@ export default function OS() {
             {/* wallpaper: staggered dot grid that ripples on click */}
             <DotGrid />
             <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,hsl(216_56%_4%/0.6)_100%)]" />
+            {/* the forward-pass net lives on the desktop too — play without opening the app */}
+            <div className="fixed right-8 top-24 z-[6] hidden w-[470px] lg:block">
+                <ForwardPassNet bare />
+            </div>
             <ThermalCursor />
 
             <MenuBar activeTitle={top && !top.minimized ? appById(top.id)?.title : 'desktop'} />
