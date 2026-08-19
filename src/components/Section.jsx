@@ -1,32 +1,36 @@
 import { motion } from 'framer-motion'
 
-export function SectionHeading({ index, title }) {
+export function SectionHeading({ title, note }) {
   return (
-    <motion.h2
-      initial={{ opacity: 0, x: -30 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.6 }}
-      className="mb-12 font-display text-3xl font-bold text-white sm:text-4xl"
-    >
-      <span className="mr-3 font-mono text-xl text-violet-400 sm:text-2xl">
-        {index}.
-      </span>
-      <span className="text-gradient">{title}</span>
-    </motion.h2>
+    <Reveal className="mb-6 flex items-baseline justify-between gap-4 border-b border-line pb-3">
+      <h2 className="font-display text-sm font-medium tracking-[0.18em] uppercase text-ink">
+        {title}
+      </h2>
+      {note && <span className="eyebrow shrink-0">{note}</span>}
+    </Reveal>
   )
 }
 
-export function Reveal({ children, delay = 0, className = '' }) {
+export function Reveal({ children, delay = 0, className = '', as = 'div' }) {
+  const Tag = motion[as] ?? motion.div
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
+    <Tag
+      initial={{ opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.6, delay }}
+      transition={{ duration: 0.55, delay, ease: [0.22, 0.61, 0.36, 1] }}
       className={className}
     >
       {children}
-    </motion.div>
+    </Tag>
+  )
+}
+
+export function Section({ id, title, note, children, className = '' }) {
+  return (
+    <section id={id} className={`scroll-mt-20 py-12 ${className}`}>
+      <SectionHeading title={title} note={note} />
+      {children}
+    </section>
   )
 }
